@@ -24,21 +24,15 @@ Os dados utilizados são os dumps oficiais do **IMDb** (https://developer.imdb.c
 - `title.crew.tsv`  
 - `title.principals.tsv`  
 
-> **Importante:** o dump completo ocupa mais de **4.5 GB**. Para evitar versionamento de arquivos grandes, disponibilizamos um link externo para download pré-processado:
+> **Importante:** o dump completo ocupa mais de **4.5 GB**. Para evitar versionamento de arquivos grandes, disponibilizo um link externo para download pré-processado:
+![Captura de tela de 2025-04-08 16-10-01](https://github.com/user-attachments/assets/2877d0cb-82b9-40f9-8671-e8606a47211d)
 
-[⬇️ Baixar MongoDB dump pré-processado (4.5 GB)](https://seu-servidor.com/imdb_dump.tar.gz)
+
+[⬇️ Baixar MongoDB dump pré-processado (4.5 GB)]([https://seu-servidor.com/imdb_dump.tar.gz](https://drive.google.com/file/d/1h4htTdC15YqB09IaXSYpeu3qOQfRxxmW/view?usp=sharing))
 
 ---
 
-📑 Endpoints Principais
-Usuários
-Método	Rota	Descrição
-POST	/users/	Cria novo usuário
-GET	/users/{username}	Busca dados do usuário
-PUT	/users/{username}/watched	Adiciona/atualiza filme assistido e rating
-Filmes
-Método	Rota	Descrição
-GET	/filmes/	Lista filmes (filtro por título, paginação)
-GET	/filmes/{tconst}	Busca filme(s) pelo tconst
-GET	/filmes/{username}/recomendacoes	Retorna recomendações personalizadas (diretores, atores, gênero)
+> **⚠️ Aviso de Compatibilidade**  
+> Este sistema foi desenvolvido e testado apenas em **Linux Ubuntu**.  
+> Embora deva funcionar em outras plataformas, não foram realizados testes em macOS ou Windows.
 
