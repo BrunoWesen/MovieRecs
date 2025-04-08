@@ -25,10 +25,11 @@ Os dados utilizados são os dumps oficiais do **IMDb** (https://developer.imdb.c
 - `title.principals.tsv`  
 
 > **Importante:** o dump completo ocupa mais de **4.5 GB**. Para evitar versionamento de arquivos grandes, disponibilizo um link externo para download pré-processado:
-![Captura de tela de 2025-04-08 16-10-01](https://github.com/user-attachments/assets/2877d0cb-82b9-40f9-8671-e8606a47211d)
+> ![Captura de tela de 2025-04-08 16-10-01](https://github.com/user-attachments/assets/2877d0cb-82b9-40f9-8671-e8606a47211d)
 
 
-[⬇️ Baixar MongoDB dump pré-processado (4.5 GB)]([https://seu-servidor.com/imdb_dump.tar.gz](https://drive.google.com/file/d/1h4htTdC15YqB09IaXSYpeu3qOQfRxxmW/view?usp=sharing))
+[⬇️ Baixar MongoDB dump pré-processado (4.5 GB)](https://drive.google.com/file/d/1h4htTdC15YqB09IaXSYpeu3qOQfRxxmW/view?usp=sharing)
+
 
 ---
 
