@@ -12,7 +12,7 @@ O sistema permite também o gerenciamento de usuários e o registro de filmes as
 
 # 2. Tecnologias
 
-- **Linguagem:** Python 3.10+  
+- **Linguagem:** Python 3.9+  
 - **Framework:** FastAPI  
 - **Banco de Dados:** MongoDB (utilizando PyMongo)  
 - **Modelos de Dados:** Pydantic  
