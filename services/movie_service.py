@@ -33,12 +33,12 @@ class MovieService:
         return movies
 
     @staticmethod
-    def get_directors_and_actors_movies(watched_tconsts: List[dict], high_rated: List[str], limit: int) -> List[Movie]:
+    def get_directors_and_actors_movies(watched_titles: List[dict], high_rated: List[str], limit: int) -> List[Movie]:
         # busca filmes por diretores e/ou atores
         rec = []
         directors = set()
         actors = set()
-
+        watched_tconsts: List[str] = [i['tconst'] for i in watched_titles]
         # extrai diretores
         for doc in MovieRepository.find_crew_by_high_rated(high_rated):
             dirs = doc.get("directors", "")
@@ -63,7 +63,7 @@ class MovieService:
 
             # buscar por ator
             for actor in actors:
-                cursor = MovieRepository.filter_actors(actor, len(rec), limit)
+                cursor = MovieRepository.filter_actors(actor, watched_tconsts,len(rec), limit)
                 for c in cursor:
                     tc = c["tconst"]
                     if tc not in watched_tconsts and tc not in rec:
@@ -77,7 +77,7 @@ class MovieService:
             return movies
 
     @staticmethod
-    def get_recommended_by_genre(watched_titles: list, rating_by_tconst: dict, watched_tconsts: list, limit: int) -> \
+    def get_recommended_by_genre(watched_titles: List[dict], rating_by_tconst: dict, watched_tconsts: list, limit: int) -> \
     List[Movie]:
         # Calcula um score para cada gênero com base na avaliação do usuário
         genre_scores = {}
