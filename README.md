@@ -1,8 +1,8 @@
-# Sistema de Recomendação de Filmes / Títulos
+# Sistema de Recomendação de Filmes
 
 # 1. Introdução
 
-Este projeto é uma **API** de recomendação de títulos (longa‑metragem, curta‑metragem e séries) construída com **FastAPI** e **MongoDB**. Ela utiliza dados brutos do **IMDb** para oferecer recomendações personalizadas de acordo com:
+Este projeto é uma **API** de recomendação de Filmes construída com **FastAPI** e **MongoDB**. Ela utiliza dados brutos do **IMDb** para oferecer recomendações personalizadas de acordo com:
 
 - Avaliações do usuário
 - Gêneros preferidos
@@ -16,11 +16,11 @@ O sistema permite também o gerenciamento de usuários e o registro de filmes as
 - **Framework:** FastAPI  
 - **Banco de Dados:** MongoDB (utilizando PyMongo)  
 - **Modelos de Dados:** Pydantic  
-- **Pré‑processamento:** Dask e Pandas
+- **Pré‑processamento:** Pandas
 
 # 4. Fonte dos Dados
 
-Os dados utilizados são os dumps oficiais do **IMDb**, dentre eles:
+Os dados utilizados são os dumps oficiais do [**IMDb**](https://developer.imdb.com/non-commercial-datasets/), dentre eles:
 
 - `title.basics.tsv`
 - `title.ratings.tsv`
@@ -28,12 +28,7 @@ Os dados utilizados são os dumps oficiais do **IMDb**, dentre eles:
 - `title.principals.tsv`
 
 ### Pré‑processamento
-- Foi ultilizado **Dask** para filtrar somente os títulos desejados: `movie`, `short`, `tvMovie` e `tvSeries`.
-- O resultado é materializado em um **Pandas DataFrame** e importado para o MongoDB.
-
-### Dump Pré‑processado
-Devido ao tamanho (quase **1 GB**), o dump completo foi hospedado externamente:
-[⬇️ Baixar Dump Pré‑processado](https://drive.google.com/file/d/1TOs5Hlg9Y7aFKS7RX0-5N3n5gImht0n_/view?usp=sharing)
+- Foi ultilizado **Pandas** para filtrar somente os títulos desejados: `movie` e `tvMovie`.
 
 # 5. Instalação
 
@@ -42,6 +37,12 @@ Devido ao tamanho (quase **1 GB**), o dump completo foi hospedado externamente
 git clone https://github.com/seu-usuario/seu-repo.git
 cd seu-repo
 ```
+### Crie um .env
+Crie um .env a partir do .env.example (copie e cole) ou no bash:
+```bash
+cp .env.example .env
+```
+e depois o configure conforme seu ambiente.
 ### Criando e ativando o ambiente virtual
 ```bash
 python -m venv .venv
@@ -53,31 +54,21 @@ source .venv/bin/activate   # Linux/macOS
 pip install -r requirements.txt
 ```
 ### Configurando o MongoDB
-Certifique-se de que o MongoDB esteja rodando localmente ou em um serviço gerenciado.
+Certifique-se de que o MongoDB esteja rodando localmente ou em um serviço gerenciado e depois rode o script `import_imdb` localizado em `scripts/import_imdb.py`, certifique-se de configurar o .env corretamente.
 
-Crie o database movies_db.
-
-Importe os dados:
-
-Utilize o dump pré‑processado:
-
-```bash
-tar -xzvf imdb_dump.tar.gz
-mongorestore --db movies_db imdb_dump/
-```
-
-
+> **⚠️ Aviso**  
+> Se você já tiver o database movies_db faça o backup pois o script irá excluí-lo para importar os dados dos filmes.
 ---
 
 # 6. Executando a API
 
-Para iniciar a API em modo de desenvolvimento (com recarregamento automático), use o **fastapi run**:
+Para iniciar a API em modo de desenvolvimento (com recarregamento automático) basta executar o `main` ou se preferir, use o **uvicorn**:
 
 ```bash
-fastapi run main.py
+uvicorn app.main:app --reload 
 ```
 
-Acesse a documentação interativa da API em: http://localhost:8000/docs
+Acesse a documentação interativa da API em `/docs` comumente localizado em: http://localhost:8000/docs
 
 
 ---
@@ -87,17 +78,18 @@ Acesse a documentação interativa da API em: http://localhost:8000/docs
 ### Usuários
 
 | Método | Rota                                  | Descrição                                  |
-| ------ | ------------------------------------- | ------------------------------------------ |
+|--------| ------------------------------------- |--------------------------------------------|
 | POST   | `/usuarios/`                          | Cria um novo usuário                       |
+| GET    | `/usuarios/`                          | Lista os usuários com paginação e busca    |
 | GET    | `/usuarios/{usuario_id}`              | Busca o usuário pelo `usuario_id`          |
 | PUT    | `/usuarios/{usuario_id}/assistidos`   | Adiciona/atualiza filme assistido e rating |
 
 ### Títulos
 
-| Método | Rota                                      | Descrição                                                      |
-| ------ | ----------------------------------------- | -------------------------------------------------------------- |
-| GET    | `/filmes/`                                | Lista títulos com paginação e busca                            |
-| GET    | `/filmes/{usuario_id}/recomendacoes`      | Retorna recomendações personalizadas                           |
+| Método | Rota                                      | Descrição                             |
+| ------ | ----------------------------------------- |---------------------------------------|
+| GET    | `/filmes/`                                | Lista os filmes com paginação e busca |
+| GET    | `/filmes/{usuario_id}/recomendacoes`      | Retorna recomendações personalizadas  |
 
 # 8. Lógica de Recomendação
 
@@ -113,3 +105,11 @@ A API recomenda títulos com base em uma hierarquia de critérios:
 
 3. **Fallback geral**  
    - Se nenhum critério específico for atendido, retorna os títulos com maior avaliação global.
+
+# 9. Testes de api
+
+Os testes de api se localizam na pasta `tests` e para executar basta executar cada arquivo de teste ou se quiser testar todos os testes use o comando:
+```bash
+pytest
+```
+com o comando `pytest` ele já localiza todos os arquivos `test_` da pasta de `tests` e executa todas as funções de testes.
