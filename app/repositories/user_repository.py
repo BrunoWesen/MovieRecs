@@ -15,7 +15,8 @@ class UserRepository:
     @staticmethod
     def find_user_by_id(id: ObjectId) -> UserResponse:
         user = db.users.find_one({"_id": id})
-        user["_id"] = str(user["_id"])
+        if user:
+            user["_id"] = str(user["_id"])
         return user
 
     @staticmethod
